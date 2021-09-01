@@ -60,6 +60,36 @@
               are also reproduced in their exact original form, accompanied by English versions from 
               the 1914 translation by H. Rackham. 
           </q-item-label>
+          <div class="qweet-icons row justify-between q-mt-sm">
+                <q-btn
+                  flat
+                  round
+                  color="grey"
+                  size="sm"
+                  icon="far fa-comment" 
+                />
+                <q-btn
+                  flat
+                  round
+                  color="grey"
+                  size="sm"
+                  icon="fas fa-retweet" 
+                />
+                <q-btn
+                  flat
+                  round
+                  color="grey"
+                  size="sm"
+                  icon="far fa-heart" 
+                />
+                <q-btn
+                  flat
+                  round
+                  color="grey"
+                  size="sm"
+                  icon="fas fa-trash" 
+                />
+          </div>
         </q-item-section>
 
         <q-item-section side top>
@@ -93,5 +123,7 @@ export default defineComponent({
   border-bottom: 1px solid
   border-color: $grey-4
 .qweet-content
-  white-space: pre-wrap
+  white-space: pre-line
+.qweet-icons
+  margin-left: -5px
 </style>
