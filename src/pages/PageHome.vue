@@ -39,8 +39,12 @@
       color="grey-2" 
       class="divider"
     />
-    <q-list>
-      <q-item class="q-py-md">
+    <q-list separator>
+      <q-item
+        v-for='qweet in qweets'
+        :key="qweet.date"
+        class="q-py-md"
+      >
         <q-item-section avatar top>
           <q-avatar size="xl">
             <img src="https://s.gravatar.com/avatar/a3020caca3fca25b245e374a01505dc4?s=80">
@@ -53,12 +57,7 @@
             <span class="text-grey-7">@tyson__romero</span>
           </q-item-label>
           <q-item-label class="qweet-content text-body1">
-            The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those 
-            interested. 
-            
-              Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero 
-              are also reproduced in their exact original form, accompanied by English versions from 
-              the 1914 translation by H. Rackham. 
+            {{qweet.content}}
           </q-item-label>
           <div class="qweet-icons row justify-between q-mt-sm">
                 <q-btn
@@ -93,7 +92,7 @@
         </q-item-section>
 
         <q-item-section side top>
-          1 min ago
+          {{ qweet.date | relativeDate }}
         </q-item-section>
       </q-item>
     </q-list>
@@ -101,13 +100,30 @@
 </template>
 
 <script>
+import { formatDistance } from 'date-fns'
+
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'PageHome',
   data() {
     return {
-      newQweetContent: ''
+      newQweetContent: '',
+      qweets: [
+        {
+          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          date: 1630525696716
+        },
+        {
+          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          date: 1630525789241
+        },
+      ]
+    }
+  },
+  filters: {
+    relativeDate(value) {
+      return formatDistance(value, new Date())
     }
   }
 })
