@@ -24,6 +24,7 @@
       </div>
       <div class="col col-shrink">
          <q-btn
+         @click = "addNewQweet"
             :disable="!newQweetContent"
             unelevated
             rounded
@@ -92,7 +93,7 @@
         </q-item-section>
 
         <q-item-section side top>
-          {{ qweet.date | relativeDate }}
+          {{ qweet.date }}
         </q-item-section>
       </q-item>
     </q-list>
@@ -119,6 +120,15 @@ export default defineComponent({
           date: 1630525789241
         },
       ]
+    }
+  },
+  methods: {
+    addNewQweet() {
+      let newQweet = {
+        content: this.newQweetContent,
+        date: Date.now()
+      }
+      this.qweets.unshift(newQweet)
     }
   },
   filters: {
