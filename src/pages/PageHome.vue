@@ -1,103 +1,112 @@
 <template>
-  <q-page>
-    <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
-      <div class="col">
-        <q-input
-          placeholder="What's Happening?"
-          bottom-slots
-          v-model="newQweetContent"
-          maxlength="280"
-          counter 
-          autogrow
-          class="new-qweet"
+  <q-page class="relative-position">
+    <q-scroll-area class="absolute fullscreen">
+      <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
+        <div class="col">
+          <q-input
+            placeholder="What's Happening?"
+            bottom-slots
+            v-model="newQweetContent"
+            maxlength="280"
+            counter 
+            autogrow
+            class="new-qweet"
+          >
+          <template v-slot:before>
+            <q-avatar size="xl">
+              <img src="https://s.gravatar.com/avatar/a3020caca3fca25b245e374a01505dc4?s=80">
+            </q-avatar>
+          </template>
+
+          <template v-slot:after>
+          
+          </template>
+        </q-input>
+        </div>
+        <div class="col col-shrink">
+          <q-btn
+          @click = "addNewQweet"
+              :disable="!newQweetContent"
+              unelevated
+              rounded
+              color="primary"
+              label="Qweet" 
+              no-caps
+              class="q-mb-lg"
+            />
+        </div>
+      </div>
+      <q-separator
+        size="10px"
+        color="grey-2" 
+        class="divider"
+      />
+      <q-list separator>
+        <transition-group
+          appear
+          enter-active-class="animated fadeIn slow"
+          leave-active-class="animated fadeOut slow"
         >
-        <template v-slot:before>
-          <q-avatar size="xl">
-            <img src="https://s.gravatar.com/avatar/a3020caca3fca25b245e374a01505dc4?s=80">
-          </q-avatar>
-        </template>
+          <q-item
+            v-for='qweet in qweets'
+            :key="qweet.date"
+            class="q-py-md"
+          >
+          
+            <q-item-section avatar top>
+              <q-avatar size="xl">
+                <img src="https://s.gravatar.com/avatar/a3020caca3fca25b245e374a01505dc4?s=80">
+              </q-avatar>
+            </q-item-section>
 
-        <template v-slot:after>
-         
-        </template>
-      </q-input>
-      </div>
-      <div class="col col-shrink">
-         <q-btn
-         @click = "addNewQweet"
-            :disable="!newQweetContent"
-            unelevated
-            rounded
-            color="primary"
-            label="Qweet" 
-            no-caps
-            class="q-mb-lg"
-          />
-      </div>
-    </div>
-    <q-separator
-      size="10px"
-      color="grey-2" 
-      class="divider"
-    />
-    <q-list separator>
-      <q-item
-        v-for='qweet in qweets'
-        :key="qweet.date"
-        class="q-py-md"
-      >
-        <q-item-section avatar top>
-          <q-avatar size="xl">
-            <img src="https://s.gravatar.com/avatar/a3020caca3fca25b245e374a01505dc4?s=80">
-          </q-avatar>
-        </q-item-section>
+            <q-item-section>
+              <q-item-label class="text-subtitle1">
+                <strong>Tyson Romero</strong>
+                <span class="text-grey-7">
+                  @tyson__romero
+                  <br class="lt-md">&bull; {{ qweet.date }}
+                  </span>
+              </q-item-label>
+              <q-item-label class="qweet-content text-body1">
+                {{qweet.content}}
+              </q-item-label>
+              <div class="qweet-icons row justify-between q-mt-sm">
+                    <q-btn
+                      flat
+                      round
+                      color="grey"
+                      size="sm"
+                      icon="far fa-comment" 
+                    />
+                    <q-btn
+                      flat
+                      round
+                      color="grey"
+                      size="sm"
+                      icon="fas fa-retweet" 
+                    />
+                    <q-btn
+                      flat
+                      round
+                      color="grey"
+                      size="sm"
+                      icon="far fa-heart" 
+                    />
+                    <q-btn
+                      @click="deleteQweet(qweet)"
+                      flat
+                      round
+                      color="grey"
+                      size="sm"
+                      icon="fas fa-trash" 
+                    />
+              </div>
+            </q-item-section>
 
-        <q-item-section>
-          <q-item-label class="text-subtitle1">
-            <strong>Tyson Romero</strong>
-            <span class="text-grey-7">@tyson__romero</span>
-          </q-item-label>
-          <q-item-label class="qweet-content text-body1">
-            {{qweet.content}}
-          </q-item-label>
-          <div class="qweet-icons row justify-between q-mt-sm">
-                <q-btn
-                  flat
-                  round
-                  color="grey"
-                  size="sm"
-                  icon="far fa-comment" 
-                />
-                <q-btn
-                  flat
-                  round
-                  color="grey"
-                  size="sm"
-                  icon="fas fa-retweet" 
-                />
-                <q-btn
-                  flat
-                  round
-                  color="grey"
-                  size="sm"
-                  icon="far fa-heart" 
-                />
-                <q-btn
-                  @click="deleteQweet(qweet)"
-                  flat
-                  round
-                  color="grey"
-                  size="sm"
-                  icon="fas fa-trash" 
-                />
-          </div>
-        </q-item-section>
-
-        <q-item-section side top>
-          {{ qweet.date }}
-        </q-item-section>
-      </q-item>
-    </q-list>
+          </q-item>
+        </transition-group>
+      </q-list>
+    </q-scroll-area>
   </q-page>
 </template>
 
@@ -130,6 +139,7 @@ export default defineComponent({
         date: Date.now()
       }
       this.qweets.unshift(newQweet)
+      this.newQweetContent = ''
     },
     deleteQweet(qweet) {
       let dateToDelete = qweet.date
