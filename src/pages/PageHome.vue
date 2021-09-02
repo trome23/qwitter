@@ -83,6 +83,7 @@
                   icon="far fa-heart" 
                 />
                 <q-btn
+                  @click="deleteQweet(qweet)"
                   flat
                   round
                   color="grey"
@@ -112,7 +113,7 @@ export default defineComponent({
       newQweetContent: '',
       qweets: [
         {
-          content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          content: 'Be your own hero, no matter how many oreos you partake, dawg.',
           date: 1630525696716
         },
         {
@@ -129,7 +130,13 @@ export default defineComponent({
         date: Date.now()
       }
       this.qweets.unshift(newQweet)
+    },
+    deleteQweet(qweet) {
+      let dateToDelete = qweet.date
+      let index = this.qweets.findIndex(qweet => qweet.date === dateToDelete)
+      this.qweets.splice(index, 1)
     }
+    
   },
   filters: {
     relativeDate(value) {
